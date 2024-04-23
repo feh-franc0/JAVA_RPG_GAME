@@ -1,5 +1,8 @@
 package racas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import models.Lutador;
 
 public class Personagens implements Lutador {
@@ -10,6 +13,8 @@ public class Personagens implements Lutador {
   private int agilidade = 15;
   private int inteligencia = 50;
   private int level = 1;
+  private int xp = 0;
+  public ArrayList<String> mochila;
 
   public Personagens(String nome, int vida, int forca, int magia, int agilidade, int inteligencia, int level) {
     this.nome = nome;
@@ -19,6 +24,12 @@ public class Personagens implements Lutador {
     this.agilidade = agilidade;
     this.inteligencia = inteligencia;
     this.level = level;
+    this.mochila = new ArrayList<String>();
+  }
+
+  // Ataque basico
+  public int ataque_basico() {
+    return this.getForca() * 2;
   }
 
   // Getters and Setters
@@ -83,4 +94,39 @@ public class Personagens implements Lutador {
   public void receberDano(int dano) {
     this.vida = this.vida - dano;
   }
+
+  public void imprimirMochila() {
+    System.out.println("Itens na mochila:");
+    for (int i = 0; i < mochila.size(); i++) {
+      System.out.println("[" + i + "] " + mochila.get(i));
+    }
+  }
+
+  public void imprimirItem(int posicao) {
+    try {
+      String item = mochila.get(posicao);
+      System.out.println("Item na posição " + posicao + ": " + item);
+    } catch (IndexOutOfBoundsException e) {
+      System.out.println("Posição inválida! Não há item na posição " + posicao);
+    }
+  }
+
+  public void ganharExperiencia(int xp) {
+    this.xp += xp;
+    while (this.xp >= calcularXPProximoNivel()) {
+      this.xp -= calcularXPProximoNivel();
+      subirNivel();
+    }
+  }
+
+  private void subirNivel() {
+    this.level++;
+    System.out.println("Parabéns! " + this.nome + " subiu para o nível " + this.level + "!");
+  }
+
+  private int calcularXPProximoNivel() {
+    // Cálculo simples para a quantidade de XP necessária para o próximo nível
+    return (int) Math.pow(this.level, 2) * 100;
+  }
+
 }

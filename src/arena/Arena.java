@@ -2,13 +2,15 @@ package arena;
 
 import racas.Personagens;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+// import java.lang.reflect.InvocationTargetException;
+// import java.lang.reflect.Method;
 import java.util.function.Supplier;
 
-// import models.Duelo;
+import errors.InsufficientLevel;
+import errors.NotEnoughLife;
+import models.Duelo;
 
-public class Arena {
+public class Arena implements Duelo {
   private Personagens jogadorX;
   private Personagens jogadorY;
   private Personagens proximoJogador;
@@ -19,7 +21,19 @@ public class Arena {
     this.proximoJogador = jogadorX;
   }
 
-  public String combate(Personagens atacante, Supplier<Integer> ataque) {
+  public String combate(Personagens atacante, Supplier<Integer> ataque)
+      throws NotEnoughLife, InsufficientLevel {
+
+    // Verifica se a vida do personagem é menor que 50
+    if (jogadorX.getVida() < 50 || jogadorY.getVida() < 50) {
+      throw new NotEnoughLife("Você está com menos de 50 de vida e não pode duelar!");
+    }
+
+    // Verifica se o nível do personagem é menor que 10
+    if (jogadorX.getLevel() < 10 || jogadorY.getLevel() < 10) {
+      throw new InsufficientLevel("Apenas personagens de nível 10 ou superior podem duelar na arena!");
+    }
+
     // Verifica se a vida de um dos jogadores já é menor ou igual a zero
     if (jogadorX.getVida() <= 0 || jogadorY.getVida() <= 0) {
       // Verifica quem foi o vencedor
