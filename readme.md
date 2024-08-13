@@ -1,5 +1,7 @@
 # Bem-vindo ao Reino da Programação: A Saga das Classes e dos Desafios!
 
+![Imagem RPG](./rpg.webp)
+
 ## Nível 1 - A Criação das Raças
 
 **Desafio do Início:** Crie as raças "Anões", "Humanos" e "Elfos". Certifique-se de que cada raça tenha um construtor que receba o nome do personagem. Você pode usar sua criatividade caso queira mudar os nomes das raças.
